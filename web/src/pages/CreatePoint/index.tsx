@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Map, TileLayer, Marker } from 'react-leaflet'
 import { LeafletMouseEvent } from 'leaflet';
@@ -12,6 +12,7 @@ import api from '../../services/api';
 import './styles.css';
 
 import logo from '../../assets/logo.svg';
+import Alert from '../../components/Alert';
 
 interface Item {
   id: number;
@@ -46,7 +47,7 @@ const CreatePoint = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File>();
 
-  const history = useHistory();
+  const [sendPoint, setSendPoint] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -130,9 +131,8 @@ const CreatePoint = () => {
 
     await api.post('points', data);
 
-    alert('Ponto de coleta criado!');
-
-    history.push('/');
+    setSendPoint(true);
+    // alert('Ponto de coleta criado!');
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -154,6 +154,12 @@ const CreatePoint = () => {
   }
 
   return (
+    <div id="container-point" className={sendPoint ? 'modal' : ''}>
+      <div className={sendPoint ? 'alert-container' : 'disable-container'}>
+        <div className="box-message">
+          <Alert />
+        </div>
+      </div>
       <div id="page-create-point">
         <header>
           <img src={logo} alt="Ecoleta"/>
@@ -278,6 +284,7 @@ const CreatePoint = () => {
           </button>
         </form>
       </div>
+    </div>
   );
 }
 

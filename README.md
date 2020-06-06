@@ -21,5 +21,5 @@ Tecnologias usadas:
 -   [SQLite](https://www.sqlite.org/index.html)
 
 <div align="center">
-    <img src="./Images/Capa.png"/>
+    <img src="./images/Capa.png"/>
 </div>
